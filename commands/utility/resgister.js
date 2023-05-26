@@ -4,9 +4,10 @@ const catty = new Catty();
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with Pong!'),
+		.setName('register')
+		.setDescription('Registers the user in the Catty memory.'),
 	async execute(interaction) {
-		return interaction.reply('Pong!');
+        await catty.register(interaction);
+		return interaction.reply('Meow! You have been registered!');
 	},
 };

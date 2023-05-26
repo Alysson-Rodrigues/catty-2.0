@@ -1,5 +1,3 @@
-// make a command to clear messages in a channel
-
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
