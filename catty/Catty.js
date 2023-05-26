@@ -114,6 +114,10 @@ class Catty {
             throw new Error('The relationship you provided does not exist.');
         }
 
+        if (!targetUser[0].discordId) {
+            throw new Error('You are not trying to relate to a bot, are you??');
+        }
+
         await this.prisma.relationshipItem.create({
             data: {
                 relationshipId: relationshipData[0].id,
@@ -121,15 +125,37 @@ class Catty {
                 targetUserId: targetUser[0].discordId,
             },
         });
+    }
 
+    
+    async listRelationshipsForUser(interaction) {
+        const sender = await this.prisma.user.findUnique({
+            where: {
+                discordId: interaction.user.id,
+            },
+        });
 
-            await this.prisma.relationshipItem.create({
-                data: {
-                    relationshipId: relationshipData[0].id,
-                    userId: targetUser[0].discordId,
-                    targetUserId: sender.discordId,
+        const relationships = await this.prisma.relationshipItem.findMany({
+            where: {
+                userId: sender.discordId,
+            },
+            include: {
+                relationship: true,
+                user: true,
+            },
+        });
+
+        // Atach the target user to each relationship
+        for (const relationship of relationships) {
+            const targetUser = await this.prisma.user.findUnique({
+                where: {
+                    discordId: relationship.targetUserId,
                 },
             });
+            relationship.target = targetUser;
+        }
+
+        return relationships;
     }
 }
 
