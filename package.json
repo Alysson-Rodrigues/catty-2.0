@@ -1,0 +1,20 @@
+{
+  "name": "catty-2.0",
+  "version": "1.0.0",
+  "description": "The new version of my old discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "prod": "node deploy-commands.js && npx prisma generate && npm start"
+  },
+  "keywords": [
+    "discord-bot"
+  ],
+  "author": "Alysson-Rodrigues",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.0.3"
+  }
+}
